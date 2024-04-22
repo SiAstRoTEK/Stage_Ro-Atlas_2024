@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/userlist")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserREST {
     @Autowired
     private UserService service;
