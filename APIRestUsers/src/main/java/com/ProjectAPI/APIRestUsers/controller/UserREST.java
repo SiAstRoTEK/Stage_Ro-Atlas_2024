@@ -1,8 +1,12 @@
 package com.ProjectAPI.APIRestUsers.controller;
 
+import com.ProjectAPI.APIRestUsers.DTO.UserDTO;
+import com.ProjectAPI.APIRestUsers.entity.ErrorHandler;
 import com.ProjectAPI.APIRestUsers.entity.User;
+import com.ProjectAPI.APIRestUsers.mapper.EntityMapper;
 import com.ProjectAPI.APIRestUsers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,9 @@ public class UserREST {
     @Autowired
     private UserService service;
 
+    @Value("${custom.message}")
+    private String customMessage;
+
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){
         User newUser = service.addUser(user);
@@ -24,15 +31,23 @@ public class UserREST {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Long id){
-        User foundUser = service.getUser(id);
-        return new ResponseEntity<>(foundUser, HttpStatus.OK);
+    public ResponseEntity<Object> getUser(@PathVariable("id") Long id){
+        try {
+            User foundUser = service.getUser(id);
+            return new ResponseEntity<>(EntityMapper.mapToUserDto(foundUser), HttpStatus.OK);
+        }catch (Exception e){
+            ErrorHandler thisError = new ErrorHandler();
+            thisError.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            thisError.setErrorMessage(e.getMessage() + customMessage);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(thisError);
+        }
+
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<User> allUsers = service.getAllUser();
-        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        return new ResponseEntity<>(EntityMapper.mapToAllUserDto(allUsers) , HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -47,3 +62,6 @@ public class UserREST {
         return ResponseEntity.ok("The User have been correctly eliminated!");
     }
 }
+
+//DTO e gestione exc
+//creare oggetto info e nel body passare err

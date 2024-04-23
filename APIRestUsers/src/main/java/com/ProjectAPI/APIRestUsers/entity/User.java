@@ -11,7 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class User {
 
     @Id
@@ -28,8 +27,9 @@ public class User {
     private String username;
 
     @Column(name ="Password", nullable = false)
-    private String password;
+    protected String password;
 
     @Column(name ="Email", nullable = false, unique = true)
     private String email;
+
 }
