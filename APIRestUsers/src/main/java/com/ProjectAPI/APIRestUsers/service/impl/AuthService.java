@@ -5,6 +5,7 @@ import com.ProjectAPI.APIRestUsers.entity.User;
 import com.ProjectAPI.APIRestUsers.repository.UserRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,14 +57,18 @@ public class AuthService {
 //    }
 
     public AuthResponse authenticate(User request){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
 
-        User user = repo.findByUsername(request.getUsername()).orElseThrow();
-        String token = jwtService.generateToken(user);
+            User user = repo.findByUsername(request.getUsername()).orElseThrow();
+            String token = jwtService.generateToken(user);
 
-        return new AuthResponse(token);
+            return new AuthResponse(token);
+        } catch (AuthenticationException e) {
+            return new AuthResponse("Invalid credentials");
+        }
     }
 
 

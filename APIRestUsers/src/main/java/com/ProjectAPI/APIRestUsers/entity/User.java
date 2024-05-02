@@ -2,6 +2,7 @@ package com.ProjectAPI.APIRestUsers.entity;
 
 //https://asecuritysite.com/encryption/plain per la 256bit key
 
+//https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/apidocs/org/springframework/security/crypto/password/PasswordEncoder.html
 
 import jakarta.persistence.*;
 import lombok.*;

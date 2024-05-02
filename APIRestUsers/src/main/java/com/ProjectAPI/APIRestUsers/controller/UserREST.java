@@ -58,8 +58,12 @@ public class UserREST {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
-        service.deleteUser(id);
-        return ResponseEntity.ok("The User have been correctly eliminated!");
+        if(service.isUserExists(id)) {
+            service.deleteUser(id);
+            return ResponseEntity.ok("The User has been correctly eliminated!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + id + " not found");
+        }
     }
 }
 
