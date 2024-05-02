@@ -24,11 +24,11 @@ public class UserREST {
     @Value("${custom.message}")
     private String customMessage;
 
-    @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        User newUser = service.addUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<User> addUser(@RequestBody User user){
+//        User newUser = service.addUser(user);
+//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable("id") Long id){
@@ -63,5 +63,3 @@ public class UserREST {
     }
 }
 
-//DTO e gestione exc
-//creare oggetto info e nel body passare err
