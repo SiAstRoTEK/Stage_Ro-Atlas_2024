@@ -25,22 +25,35 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-
-    public AuthResponse register(User request){
+    public void register(User request){
         User user = new User();
         user.setName(request.getName());
         user.setSurname(request.getSurname());
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
 
-        user = repo.save(user);
-
-        String token = jwtService.generateToken(user);
-
-        return new AuthResponse(token);
+        repo.save(user);
     }
+
+    //sostituito perchè non più necessario restituire token
+//    public AuthResponse register(User request){
+//        User user = new User();
+//        user.setName(request.getName());
+//        user.setSurname(request.getSurname());
+//        user.setUsername(request.getUsername());
+//        user.setEmail(request.getEmail());
+//        //user.setPassword(passwordEncoder.encode(request.getPassword()));
+//        user.setPassword(request.getPassword());
+//        user.setRole(request.getRole());
+//
+//        user = repo.save(user);
+//
+//        String token = jwtService.generateToken(user);
+//
+//        return new AuthResponse(token);
+//    }
 
     public AuthResponse authenticate(User request){
         authenticationManager.authenticate(

@@ -51,7 +51,9 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Restituisci una password non crittografata
-        return NoOpPasswordEncoder.getInstance();
+        //return NoOpPasswordEncoder.getInstance();
+        //test con return di pass crypted
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
