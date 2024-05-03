@@ -4,6 +4,13 @@ package com.ProjectAPI.APIRestUsers.entity;
 
 //https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/apidocs/org/springframework/security/crypto/password/PasswordEncoder.html
 
+//SecurityConfig -->
+//The authenticationManager.authenticate() method will internally call loadUserByUsername()
+//method from our CustomUserDetailsService class.
+//Then it will match the password from userDetailsService with the password found from LoginRequest.
+//This method will throw exception if the authentication is not successful.
+
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

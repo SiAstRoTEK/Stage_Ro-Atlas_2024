@@ -23,7 +23,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
-        return userRepo.save(user);
+        User userToAdd = new User();
+
+        userToAdd.setName(user.getName());
+        userToAdd.setSurname(user.getSurname());
+        userToAdd.setUsername(user.getUsername());
+        userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
+        userToAdd.setEmail(user.getEmail());
+        userToAdd.setRole(user.getRole());
+
+        return userRepo.save(userToAdd);
     }
 
     @Override
